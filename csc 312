@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct stack_node {
+    char data;
+    struct stack_node *next;
+} StackNode;
+
+typedef struct stack {
+    StackNode *top;
+} Stack;
+
+void stack_init(Stack *stack) {
+    stack->top = NULL;
+}
+
+int stack_is_empty(Stack *stack) {
+    return stack->top == NULL;
+}
+
+void stack_push(Stack *stack, char data) {
+    StackNode *node = (StackNode *) malloc(sizeof(StackNode));
+    node->data = data;
+    node->next = stack->top;
+    stack->top = node;
+}
+
+char stack_pop(Stack *stack) {
+    if (stack_is_empty(stack)) {
+        return '\0';
+    }
+    StackNode *top = stack->top;
+    char data = top->data;
+    stack->top = top->next;
+    free(top);
+    return data;
+}
+
+int is_palindrome(char *str) {
+    int i;
+    Stack stack;
+    stack_init(&stack);
+
+    for (i = 0; str[i] != '\0'; i++) {
+        stack_push(&stack, str[i]);
+    }
+
+    for (i = 0; str[i] != '\0'; i++) {
+        if (str[i] != stack_pop(&stack)) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main() {
+    char str[100];
+    printf("Enter a string: ");
+    scanf("%s", str);
+
+    if (is_palindrome(str)) {
+        printf("The string is a palindrome.\n");
+    } else {
+        printf("The string is not a palindrome.\n");
+    }
+
+    return 0;
+}
