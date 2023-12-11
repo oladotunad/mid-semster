@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+// Define Node Structure
+struct Node {
+    double data;
+    Node* next;
+};
+
+// Function to perform Push Operation
+void push(Node** top, double data) {
+    Node* newNode = new Node();
+    newNode->data = data;
+    newNode->next = *top;
+    *top = newNode;
+}
+
+int main() {
+    Node* top = NULL;
+
+    push(&top, 5.5);
+    push(&top, 3.3);
+    push(&top, 7.7);
+
+    return 0;
+}
